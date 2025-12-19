@@ -13,15 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        User::create([
-            'firstname' => 'super',
-            'lastname' => 'admin',
-            'email' => 'petitho91@gmail.com',
-            'password' => bcrypt('Password@123'),
-            'role' => 'admin',
-            'is_active' => true,
+        $this->call([
+            TransactionTypeSeeder::class,
+            TransactionStatusSeeder::class,
+            UserSeeder::class,
+            WalletSeeder::class,
+            TransactionSeeder::class,
         ]);
     }
 }

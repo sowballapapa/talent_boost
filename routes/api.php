@@ -14,3 +14,11 @@ Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/wallet/balance', [App\Http\Controllers\WalletController::class, 'balance']);
+    Route::post('/transactions/transfer', [App\Http\Controllers\TransactionController::class, 'transfer']);
+    Route::get('/transactions/history', [App\Http\Controllers\TransactionController::class, 'index']);
+    Route::get('/transaction-types', [App\Http\Controllers\TransactionTypeController::class, 'index']);
+    Route::get('/transaction-statuses', [App\Http\Controllers\TransactionStatusController::class, 'index']);
+});

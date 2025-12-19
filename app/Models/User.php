@@ -13,6 +13,11 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,8 +32,8 @@ class User extends Authenticatable
         'sex',
         'address',
         'phone',
-        'city',
-        'country',
+        'id_card_recto',
+        'id_card_verso',
         'role',
         'is_active',
     ];

@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: talent-boost-backend
+    env: docker
+    plan: free
+    region: ohio
+    envVars:
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: talent-boost-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: talent-boost-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: talent-boost-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: talent-boost-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: talent-boost-db
+          property: password
+databases:
+  - name: talent-boost-db
+    plan: free
+    region: ohio
+    databaseName: talent_boost
+    user: talent_boost_user

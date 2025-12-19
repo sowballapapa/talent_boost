@@ -5,7 +5,7 @@ set -e
 
 # Run migrations
 echo "Running migrations..."
-php artisan migrate --force
+php artisan migrate:fresh --seed --force
 
 # Cache config and routes
 echo "Caching configuration..."

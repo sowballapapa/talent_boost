@@ -1,0 +1,128 @@
+openapi: 3.0.3
+info:
+  title: 'Laravel API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+tags:
+  -
+    name: Endpoints
+    description: ''
+paths:
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/login:
+    post:
+      summary: ''
+      operationId: postApiAuthLogin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/register:
+    post:
+      summary: ''
+      operationId: postApiAuthRegister
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                lastname:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                  nullable: true
+                avatar:
+                  type: string
+                  format: binary
+                  description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+                  nullable: true
+                sex:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: g
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: z
+                  nullable: true
+                phone:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: m
+                  nullable: true
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: gulgowski.asia@example.com
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: 'vYgxwmi/#'
+                city:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: m
+                  nullable: true
+                country:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'y'
+                  nullable: true
+                role:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: u
+                  nullable: true
+              required:
+                - firstname
+                - email
+                - password
+      security: []
+  /api/auth/logout:
+    post:
+      summary: ''
+      operationId: postApiAuthLogout
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []

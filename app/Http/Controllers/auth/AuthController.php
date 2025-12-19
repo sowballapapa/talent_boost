@@ -13,7 +13,7 @@ class AuthController extends ResponseController
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $credentials['email'])->first();
         if($user){
-            if(Hash::check($user->password, $credentials['password'])){
+            if(Hash::check($credentials['password'], $user->password)){
                 if(Auth::attempt($credentials)){
                     $token = $user->createToken('auth-token')->plainTextToken;
                     return $this->success(

@@ -38,10 +38,10 @@ class AuthController extends ResponseController
     }
 
     public function register(Request $request){
-        $inputs = $request->validated([
+        $inputs = $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'nullable|string|max:255',
-            'avatar' => 'nullable|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'sex' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
@@ -62,14 +62,14 @@ class AuthController extends ResponseController
         $user = User::create([
             'firstname' => $inputs['firstname'],
             'lastname' => $inputs['lastname'],
-            'avatar' => $inputs['avatar'],
-            'sex' => $inputs['sex'],
-            'address' => $inputs['address'],
-            'phone' => $inputs['phone'],
+            'avatar' => $inputs['avatar'] ?? null,
+            'sex' => $inputs['sex'] ?? null,
+            'address' => $inputs['address'] ?? null,
+            'phone' => $inputs['phone'] ?? null,
             'email' => $inputs['email'],
             'password' => Hash::make($inputs['password']),
-            'city' => $inputs['city'],
-            'country' => $inputs['country'],
+            'city' => $inputs['city'] ?? null,
+            'country' => $inputs['country'] ?? null,
             'role' => $inputs['role'] ?? 'user',
         ]);
         $token = $user->createToken('auth-token')->plainTextToken;

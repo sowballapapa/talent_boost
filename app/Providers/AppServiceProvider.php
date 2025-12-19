@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\Transaction::class, \App\Policies\TransactionPolicy::class);
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\Wallet::class, \App\Policies\WalletPolicy::class);
     }
 }

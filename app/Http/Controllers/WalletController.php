@@ -67,7 +67,9 @@ class WalletController extends ResponseController
 
         return $this->success('Wallet balance retrieved', [
             'balance' => $wallet->balance,
-            'currency' => 'FCFA'
+            'currency' => 'FCFA',
+            'uuid' => $wallet->uuid,
+            'account_number' => $wallet->account_number
         ]);
     }
 }

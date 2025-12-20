@@ -45,8 +45,8 @@ class AuthController extends ResponseController
                     'Connexion réussie', 
                         [
                             'token' => $token, 
-                            'user' => $user
-                        ]
+                            'user' => $user->load('wallet')
+                        ], 201
                     );
             } else {
                 return $this->error('Mot de passe incorrect', 401);
@@ -96,7 +96,7 @@ class AuthController extends ResponseController
         ], $messages);
 
         if ($validator->fails()) {
-            return $this->error('Erreur de validation', 422, $validator->errors());
+            return $this->error('Erreur de validation', $validator->errors(), 422);
         }
 
         $inputs = $validator->validated();
@@ -147,8 +147,8 @@ class AuthController extends ResponseController
             'Inscription réussie', 
                 [
                     'token' => $token, 
-                    'user' => $user
-                ]
+                    'user' => $user->load('wallet')
+                ], 201
             );
     }
 }

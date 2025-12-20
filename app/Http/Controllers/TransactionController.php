@@ -26,7 +26,7 @@ class TransactionController extends ResponseController
 
         $transactions = Transaction::where('income_user', $user->id)
             ->orWhere('outcome_user', $user->id)
-            ->with(['type', 'status'])
+            ->with(['type', 'status', 'incomeUser', 'outcomeUser'])
             ->orderBy('created_at', 'desc')
             ->get();
 

@@ -109,7 +109,7 @@ paths:
                 role:
                   type: string
                   description: ''
-                  example: vendeur
+                  example: acheteur
                   enum:
                     - acheteur
                     - vendeur
@@ -181,10 +181,10 @@ paths:
                   type: number
                   description: 'Must be at least 1.'
                   example: 16
-                wallet_uuid:
+                recipient_identifier:
                   type: string
-                  description: 'Must be a valid UUID. The <code>uuid</code> of an existing record in the wallets table.'
-                  example: a4855dc5-0acb-33c3-b921-f4291f719ca0
+                  description: ''
+                  example: architecto
                 offline_id:
                   type: string
                   description: ''
@@ -192,7 +192,7 @@ paths:
                   nullable: true
               required:
                 - amount
-                - wallet_uuid
+                - recipient_identifier
       security: []
   /api/transactions/history:
     get:
@@ -216,6 +216,37 @@ paths:
       tags:
         - Endpoints
       security: []
+  '/api/transactions/{transaction_id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: transaction_id
+        description: 'The ID of the transaction.'
+        example: 1
+        required: true
+        schema:
+          type: integer
   /api/transaction-types:
     get:
       summary: 'Display a listing of the resource.'
@@ -259,4 +290,113 @@ paths:
                     example: Unauthenticated.
       tags:
         - Endpoints
+      security: []
+  /api/user/profile:
+    get:
+      summary: "Get the authenticated user's profile with wallet."
+      operationId: getTheAuthenticatedUsersProfileWithWallet
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/user/update:
+    post:
+      summary: "Update the authenticated user's profile."
+      operationId: updateTheAuthenticatedUsersProfile
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                  nullable: true
+                lastname:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                  nullable: true
+                sex:
+                  type: string
+                  description: 'Must not be greater than 10 characters.'
+                  example: gzmiyv
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: d
+                  nullable: true
+                city:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: l
+                  nullable: true
+                country:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: j
+                  nullable: true
+                avatar:
+                  type: string
+                  format: binary
+                  description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+                  nullable: true
+      security: []
+  /api/user/search:
+    get:
+      summary: 'Search for a user by phone or account number (for transfers).'
+      operationId: searchForAUserByPhoneOrAccountNumberforTransfers
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: 'Must be at least 3 characters.'
+                  example: bngzmiyvdljnikhwaykcmyuwpwlvqwrsitcpscqldzsnrwtujwvlxjklqppwqbewtnnoqitpxn
+              required:
+                - query
       security: []

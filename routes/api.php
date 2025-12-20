@@ -28,3 +28,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/update', [App\Http\Controllers\UserController::class, 'update']);
     Route::get('/user/search', [App\Http\Controllers\UserController::class, 'search']);
 });
+
+// Documentation technique (public)
+Route::get('/doc-tech', function () {
+    return response()->file(public_path('doc-tech/index.html'));
+});
+
+// Documentation technique (public)
+Route::get('/docs', function () {
+    return response()->file(public_path('docs/index.html'));
+});

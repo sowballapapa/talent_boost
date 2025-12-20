@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Technique - Sama Monnaie</title>
+    <style>
+        @media print {
+            body { margin: 0; }
+            .page-break { page-break-after: always; }
+            h1, h2 { page-break-after: avoid; }
+            pre, table { page-break-inside: avoid; }
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fff;
+        }
+        
+        h1 {
+            color: #0b3c5d;
+            border-bottom: 3px solid #1e88e5;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #0b3c5d;
+            border-bottom: 2px solid #FBC02D;
+            padding-bottom: 8px;
+            margin-top: 32px;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #1e88e5;
+            margin-top: 24px;
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            color: #0b3c5d;
+            margin-top: 16px;
+        }
+        
+        p {
+            margin: 12px 0;
+            text-align: justify;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            color: #e53935;
+        }
+        
+        pre {
+            background: #f5f5f5;
+            border-left: 4px solid #1e88e5;
+            padding: 16px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: #0b3c5d;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        blockquote {
+            border-left: 4px solid #FBC02D;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: #fffbf0;
+            font-style: italic;
+            color: #666;
+        }
+        
+        ul, ol {
+            margin: 12px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 0 4px;
+        }
+        
+        .badge-primary { background: #e3f2fd; color: #1976d2; }
+        .badge-success { background: #e8f5e9; color: #388e3c; }
+        .badge-warning { background: #fff3e0; color: #f57c00; }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: linear-gradient(135deg, #0b3c5d 0%, #1e88e5 100%);
+            color: white;
+            border-radius: 8px;
+        }
+        
+        .header h1 {
+            color: white;
+            border: none;
+            margin: 0;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            margin: 10px 0 0 0;
+        }
+        
+        .toc {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            color: #0b3c5d;
+            border: none;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+        }
+        
+        .toc a {
+            color: #1e88e5;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .mermaid-note {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 12px 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        
+        .checkbox {
+            margin-right: 8px;
+        }
+        
+        .icon {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 Documentation Technique</h1>
+        <p><strong>Sama Monnaie</strong> - Solution "Zero Monnaie"</p>
+        <p style="font-size: 0.9em; margin-top: 10px;">Talent Boost © 2025</p>
+    </div>
+
+    <div class="toc">
+        <h2>📋 Table des Matières</h2>
+        <ul>
+            <li><a href="#overview">Vue d'ensemble</a></li>
+            <li><a href="#architecture">Architecture Globale</a></li>
+            <li><a href="#backend">Backend - Laravel API</a></li>
+            <li><a href="#frontend">Frontend - React Native</a></li>
+            <li><a href="#data-flow">Flux de Données</a></li>
+            <li><a href="#deployment">Déploiement</a></li>
+            <li><a href="#security">Sécurité</a></li>
+            <li><a href="#database">Base de Données</a></li>
+            <li><a href="#commands">Scripts & Commandes</a></li>
+            <li><a href="#roadmap">Roadmap Future</a></li>
+        </ul>
+    </div>
+
+    <h1 id="overview">📋 Vue d'ensemble</h1>
+    
+    <p><strong>Sama Monnaie</strong> est une application mobile de paiement et de transfert d'argent visant à résoudre le problème de "petite monnaie" dans les transactions quotidiennes au Sénégal. L'application permet aux utilisateurs d'effectuer des paiements digitaux sans avoir besoin de monnaie physique.</p>
+    
+    <blockquote>
+        <strong>"Zero Monnaie"</strong> - Faciliter les échanges quotidiens et éliminer les problèmes de petite monnaie chez les commerçants.
+    </blockquote>
+
+    <div class="page-break"></div>
+
+    <h1 id="architecture">🎨 Architecture Globale</h1>
+    
+    <div class="mermaid-note">
+        <strong>📊 Diagramme d'architecture :</strong> Mobile App (React Native) → API Backend (Laravel) → Base de données MySQL + Stockage fichiers
+    </div>
+    
+    <p>L'application suit une architecture client-serveur classique :</p>
+    <ul>
+        <li><strong>Frontend :</strong> Application mobile React Native avec Expo</li>
+        <li><strong>Backend :</strong> API RESTful Laravel avec authentification Sanctum</li>
+        <li><strong>Base de données :</strong> MySQL pour les données transactionnelles</li>
+        <li><strong>Stockage :</strong> Fichiers locaux pour avatars et documents</li>
+    </ul>
+
+    <h1 id="backend">🔧 Backend - Laravel API</h1>
+
+    <h2>Technologies & Stack</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Composant</th>
+                <th>Technologie</th>
+                <th>Version</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Framework</td>
+                <td>Laravel</td>
+                <td>11.x</td>
+            </tr>
+            <tr>
+                <td>Langage</td>
+                <td>PHP</td>
+                <td>8.2+</td>
+            </tr>
+            <tr>
+                <td>Base de données</td>
+                <td>MySQL</td>
+                <td>8.0</td>
+            </tr>
+            <tr>
+                <td>Authentification</td>
+                <td>Laravel Sanctum</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Documentation API</td>
+                <td>Scribe</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Déploiement</td>
+                <td>Docker + Render</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Structure du Projet</h3>
+    
+    <pre><code>backend/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       ├── auth/
+│   │       │   └── AuthController.php
+│   │       ├── TransactionController.php
+│   │       ├── WalletController.php
+│   │       └── UserController.php
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Wallet.php
+│   │   ├── Transaction.php
+│   │   ├── TransactionType.php
+│   │   └── TransactionStatus.php
+│   └── Policies/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── routes/
+│   └── api.php
+└── docker/</code></pre>
+
+    <h3>Modèles de Données</h3>
+
+    <h4>User</h4>
+    <ul>
+        <li>id (primary key)</li>
+        <li>firstname, lastname</li>
+        <li>phone (unique, requis pour auth mobile)</li>
+        <li>email (nullable)</li>
+        <li>password</li>
+        <li>sex (M/F)</li>
+        <li>avatar</li>
+        <li>role (acheteur/vendeur)</li>
+        <li>address, city, country</li>
+        <li>id_card_recto, id_card_verso</li>
+    </ul>
+
+    <h4>Wallet</h4>
+    <ul>
+        <li>id</li>
+        <li>user_id (foreign key)</li>
+        <li>uuid (unique identifier)</li>
+        <li>account_number (unique)</li>
+        <li>balance (decimal 15,2)</li>
+        <li>currency (default: FCFA)</li>
+    </ul>
+
+    <h4>Transaction</h4>
+    <ul>
+        <li>id (primary key)</li>
+        <li>income_user (foreign key → users, bénéficiaire)</li>
+        <li>outcome_user (foreign key → users, émetteur)</li>
+        <li>transaction_type_id (foreign key → TransactionType)</li>
+        <li>transaction_status_id (foreign key → TransactionStatus)</li>
+        <li>amount (decimal 10,2)</li>
+        <li>transaction_hash (nullable)</li>
+        <li>offline_id (pour transactions hors ligne, unique, nullable)</li>
+        <li>synced_at (timestamp, nullable)</li>
+        <li>created_at (timestamp)</li>
+        <li>updated_at (timestamp)</li>
+    </ul>
+
+    <h3>Routes API</h3>
+
+    <h4>Authentification (<code>/api/auth</code>)</h4>
+    <ul>
+        <li><code>POST /auth/login</code> - Connexion (phone/email + password)</li>
+        <li><code>POST /auth/register</code> - Inscription (multipart/form-data)</li>
+        <li><code>POST /auth/logout</code> - Déconnexion (authentifié)</li>
+    </ul>
+
+    <h4>Wallet (<code>/api/wallet</code>)</h4>
+    <ul>
+        <li><code>GET /wallet/balance</code> - Solde de l'utilisateur (authentifié)</li>
+    </ul>
+
+    <h4>Transactions (<code>/api/transactions</code>)</h4>
+    <ul>
+        <li><code>POST /transactions/transfer</code> - Créer un transfert (authentifié)</li>
+        <li><code>GET /transactions/history</code> - Historique des transactions (authentifié)</li>
+        <li><code>GET /transactions/{id}</code> - Détails d'une transaction (authentifié)</li>
+    </ul>
+
+    <h4>Utilisateurs (<code>/api/user</code>)</h4>
+    <ul>
+        <li><code>GET /user/profile</code> - Profil de l'utilisateur (authentifié)</li>
+        <li><code>POST /user/update</code> - Mise à jour du profil (authentifié, multipart)</li>
+        <li><code>GET /user/search?query=</code> - Rechercher un utilisateur (authentifié)</li>
+    </ul>
+
+    <h3>Authentification</h3>
+    
+    <p><strong>Laravel Sanctum</strong> - Token-based authentication</p>
+    <ul>
+        <li>Tokens stockés dans <code>personal_access_tokens</code></li>
+        <li>Middleware <code>auth:sanctum</code> protège les routes</li>
+        <li>Tokens envoyés via header <code>Authorization: Bearer {token}</code></li>
+    </ul>
+
+    <h3>Réponses API Standardisées</h3>
+    
+    <pre><code>{
+  "status": "success|error",
+  "message": "Message descriptif",
+  "data": {...}
+}</code></pre>
+
+    <div class="page-break"></div>
+
+    <h1 id="frontend">📱 Frontend - React Native (Expo)</h1>
+
+    <h2>Technologies & Stack</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Composant</th>
+                <th>Technologie</th>
+                <th>Version</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Framework</td>
+                <td>React Native</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Build Tool</td>
+                <td>Expo</td>
+                <td>SDK 52</td>
+            </tr>
+            <tr>
+                <td>Langage</td>
+                <td>TypeScript</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Navigation</td>
+                <td>Expo Router</td>
+                <td>v3</td>
+            </tr>
+            <tr>
+                <td>HTTP Client</td>
+                <td>Axios</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Icônes</td>
+                <td>@expo/vector-icons</td>
+                <td>Material, FontAwesome5</td>
+            </tr>
+            <tr>
+                <td>Stockage Sécurisé</td>
+                <td>expo-secure-store</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Images</td>
+                <td>expo-image-picker</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Structure du Projet</h3>
+    
+    <pre><code>mobile/
+├── app/
+│   ├── (tabs)/
+│   │   ├── index.tsx          # Dashboard
+│   │   ├── history.tsx        # Historique
+│   │   └── _layout.tsx        # Layout tabs
+│   ├── transaction/
+│   │   └── [id].tsx           # Détails transaction
+│   ├── login.tsx              # Connexion
+│   ├── register.tsx           # Inscription
+│   ├── send-money.tsx         # Envoi d'argent
+│   ├── qr-code.tsx            # QR Code
+│   ├── profile.tsx            # Profil utilisateur
+│   ├── about.tsx              # À propos
+│   └── _layout.tsx            # Layout principal
+├── components/
+├── constants/
+│   └── Colors.ts              # Thème de couleurs
+├── context/
+│   └── AuthContext.tsx        # Context d'authentification
+├── services/
+│   └── api.ts                 # Configuration Axios
+└── utils/
+    └── storage.ts             # Stockage sécurisé</code></pre>
+
+    <h3>Pages & Fonctionnalités</h3>
+
+    <h4>1. Authentification</h4>
+    
+    <p><strong>Login</strong> (<code>/login</code>)</p>
+    <ul>
+        <li>Connexion via phone ou email</li>
+        <li>Stockage sécurisé du token</li>
+        <li>Logo de marque <code>s-logo-icon.png</code></li>
+        <li>Texte en français</li>
+    </ul>
+
+    <p><strong>Register</strong> (<code>/register</code>)</p>
+    <ul>
+        <li>Processus multi-étapes (4 étapes):
+            <ol>
+                <li>Informations personnelles</li>
+                <li>Détails du profil</li>
+                <li>Sécurité (mot de passe)</li>
+                <li>Vérification (CNI recto/verso)</li>
+            </ol>
+        </li>
+        <li>Upload d'images via <code>expo-image-picker</code></li>
+        <li>Validation en temps réel</li>
+    </ul>
+
+    <h4>2. Dashboard (<code>/(tabs)/index</code>)</h4>
+    
+    <p><strong>Caractéristiques:</strong></p>
+    <ul>
+        <li>Carte de solde avec visibilité toggle</li>
+        <li>Actions rapides (Dépôt, Retrait, Envoyer, Monnaie)</li>
+        <li>Icône "coins" FontAwesome5 pour "Monnaie"</li>
+        <li>Liste des 3 dernières transactions</li>
+        <li>Refresh pull-to-reload</li>
+        <li>QR Code d'accès rapide</li>
+    </ul>
+
+    <h4>3. Envoi d'Argent (<code>/send-money</code>)</h4>
+    
+    <p><strong>Flow:</strong></p>
+    <ol>
+        <li>Recherche du destinataire (debounced, 800ms)</li>
+        <li>Liste déroulante des résultats</li>
+        <li>Sélection du destinataire</li>
+        <li>Saisie du montant (validation balance)</li>
+        <li>Carte de confirmation</li>
+        <li>Transfert sécurisé</li>
+    </ol>
+
+    <p><strong>Validations:</strong></p>
+    <ul>
+        <li>Montant > 0</li>
+        <li>Montant ≤ Solde disponible</li>
+        <li>Destinataire valide</li>
+        <li>Feedback visuel en temps réel</li>
+    </ul>
+
+    <h4>4. Historique (<code>/(tabs)/history</code>)</h4>
+    <ul>
+        <li>Liste complète des transactions</li>
+        <li>Filtres par type (Reçu/Envoyé)</li>
+        <li>Navigation vers détails</li>
+    </ul>
+
+    <h4>5. Détails Transaction (<code>/transaction/[id]</code>)</h4>
+    <ul>
+        <li>Montant avec signe (+/-)</li>
+        <li>Statut (Completed/Pending)</li>
+        <li>Informations émetteur/destinataire</li>
+        <li>UUID de transaction</li>
+        <li>Frais (si applicable)</li>
+    </ul>
+
+    <h4>6. Profil (<code>/profile</code>)</h4>
+    <ul>
+        <li>Modification d'avatar</li>
+        <li>Édition des informations</li>
+        <li>Navigation vers "À propos"</li>
+        <li>Déconnexion</li>
+    </ul>
+
+    <h4>7. QR Code (<code>/qr-code-svg</code>)</h4>
+    <ul>
+        <li>QR Code personnel basé sur <code>wallet.uuid</code></li>
+        <li>Logo superposé <code>s-logo-icon.png</code></li>
+        <li>Partage d'image</li>
+        <li>Copie de lien</li>
+    </ul>
+
+    <h4>8. À Propos (<code>/about</code>)</h4>
+    <ul>
+        <li>Logo texte <code>s-logo-text.png</code></li>
+        <li>Mission "Zero Monnaie"</li>
+        <li>Informations de version</li>
+        <li>Copyright</li>
+    </ul>
+
+    <h3>Thème & Design</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Couleur</th>
+                <th>Light Mode</th>
+                <th>Dark Mode</th>
+                <th>Usage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Primary</td>
+                <td><span class="badge badge-primary">#0b3c5d</span></td>
+                <td><span class="badge badge-primary">#1e88e5</span></td>
+                <td>Boutons principaux</td>
+            </tr>
+            <tr>
+                <td>Accent</td>
+                <td><span class="badge badge-primary">#1e88e5</span></td>
+                <td><span class="badge badge-primary">#0b3c5d</span></td>
+                <td>Liens, icônes</td>
+            </tr>
+            <tr>
+                <td>Secondary</td>
+                <td><span class="badge badge-warning">#FBC02D</span></td>
+                <td><span class="badge badge-warning">#FBC02D</span></td>
+                <td>Badges, highlights</td>
+            </tr>
+            <tr>
+                <td>Success</td>
+                <td><span class="badge badge-success">#10B981</span></td>
+                <td><span class="badge badge-success">#10B981</span></td>
+                <td>Transactions entrantes</td>
+            </tr>
+            <tr>
+                <td>Error</td>
+                <td>#EF4444</td>
+                <td>#EF4444</td>
+                <td>Messages d'erreur</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h1 id="data-flow">🔄 Flux de Données</h1>
+
+    <h2>1. Inscription</h2>
+    
+    <div class="mermaid-note">
+        <strong>📊 Flux :</strong> Utilisateur → Mobile App → Backend API → Database → Réponse (token, user) → Stockage sécurisé → Dashboard
+    </div>
+
+    <ol>
+        <li>L'utilisateur remplit le formulaire d'inscription (4 étapes)</li>
+        <li>Upload des photos de CNI (recto/verso)</li>
+        <li>Envoi FormData à <code>POST /auth/register</code></li>
+        <li>Backend crée User + Wallet automatiquement</li>
+        <li>Retour de <code>{token, user}</code></li>
+        <li>Stockage sécurisé du token</li>
+        <li>Redirection vers Dashboard</li>
+    </ol>
+
+    <h2>2. Transfert d'Argent</h2>
+    
+    <div class="mermaid-note">
+        <strong>📊 Flux :</strong> Recherche → Sélection → Montant → Validation → API Transfer → Mise à jour Wallets → Refresh balance
+    </div>
+
+    <ol>
+        <li>Recherche du destinataire (debounced)</li>
+        <li><code>GET /user/search?query=...</code></li>
+        <li>Sélection du destinataire trouvé</li>
+        <li>Saisie et validation du montant (≤ balance)</li>
+        <li>Confirmation et envoi <code>POST /transactions/transfer</code></li>
+        <li>Backend crée Transaction et met à jour les 2 Wallets</li>
+        <li>Retour de <code>{success, transaction}</code></li>
+        <li>Refresh du solde utilisateur</li>
+    </ol>
+
+    <h1 id="deployment">🚀 Déploiement</h1>
+
+    <h2>Backend (Laravel)</h2>
+    
+    <p><strong>Docker + Render</strong></p>
+    <ol>
+        <li>Dockerfile multi-stage</li>
+        <li>Nginx + PHP-FPM</li>
+        <li>Supervisor pour gestion des processus</li>
+        <li>Variables d'environnement Render</li>
+        <li>Migrations automatiques (<code>docker-entrypoint.sh</code>)</li>
+    </ol>
+
+    <h2>Frontend (Expo)</h2>
+    
+    <p><strong>Options :</strong></p>
+    <ul>
+        <li><strong>Expo Go</strong> (Dev) - Scan QR code pour test rapide</li>
+        <li><strong>EAS Build</strong> (Prod) - APK/IPA natifs pour stores</li>
+        <li><strong>Expo Web</strong> - PWA via navigateur</li>
+    </ul>
+
+    <h1 id="security">🔐 Sécurité</h1>
+
+    <h2>Backend</h2>
+    <ul>
+        <li>✅ Laravel Sanctum (token-based auth)</li>
+        <li>✅ CORS configuré</li>
+        <li>✅ Validation des requêtes (FormRequest)</li>
+        <li>✅ Policies pour autorisation</li>
+        <li>✅ Hash de mots de passe (bcrypt)</li>
+        <li>✅ Protection CSRF (Sanctum)</li>
+    </ul>
+
+    <h2>Frontend</h2>
+    <ul>
+        <li>✅ Tokens stockés en <code>expo-secure-store</code></li>
+        <li>✅ Pas de données sensibles en <code>AsyncStorage</code></li>
+        <li>✅ HTTPS uniquement en production</li>
+        <li>✅ Validation côté client</li>
+        <li>✅ Gestion d'erreurs robuste</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <h1 id="database">📊 Base de Données - Relations</h1>
+
+    <div class="mermaid-note">
+        <strong>📊 Schéma relationnel :</strong>
+        <ul>
+            <li>User (1) → (N) Transaction (outcome/income)</li>
+            <li>User (1) → (1) Wallet</li>
+            <li>Transaction (N) → (1) TransactionType</li>
+            <li>Transaction (N) → (1) TransactionStatus</li>
+        </ul>
+    </div>
+
+    <h2>Tables Principales</h2>
+
+    <h3>users</h3>
+    <ul>
+        <li>id (PK)</li>
+        <li>firstname, lastname</li>
+        <li>phone (UK)</li>
+        <li>email</li>
+        <li>role</li>
+    </ul>
+
+    <h3>wallets</h3>
+    <ul>
+        <li>id (PK)</li>
+        <li>user_id (FK)</li>
+        <li>uuid (UK)</li>
+        <li>account_number (UK)</li>
+        <li>balance (decimal)</li>
+    </ul>
+
+    <h3>transactions</h3>
+    <ul>
+        <li>id (PK)</li>
+        <li>uuid (UK)</li>
+        <li>type_id (FK)</li>
+        <li>status_id (FK)</li>
+        <li>income_user_id (FK)</li>
+        <li>outcome_user_id (FK)</li>
+        <li>amount (decimal)</li>
+        <li>fee (decimal)</li>
+    </ul>
+
+    <h1 id="commands">🛠️ Scripts & Commandes</h1>
+
+    <h2>Backend</h2>
+    
+    <pre><code># Installation
+composer install
+php artisan migrate --seed
+
+# Développement
+php artisan serve
+
+# Docker
+docker build -t sama-monnaie-api .
+docker run -p 8000:80 sama-monnaie-api
+
+# Tests
+php artisan test</code></pre>
+
+    <h2>Frontend</h2>
+    
+    <pre><code># Installation
+npm install
+
+# Développement
+npx expo start
+
+# Web
+npx expo start --web
+
+# Build production
+eas build --platform android
+eas build --platform ios</code></pre>
+
+    <h1 id="roadmap">🔮 Roadmap Future</h1>
+
+    <ul>
+        <li><span class="checkbox">☐</span> Notifications Push</li>
+        <li><span class="checkbox">☐</span> Paiements marchands (QR Code scan)</li>
+        <li><span class="checkbox">☐</span> Historique hors ligne</li>
+        <li><span class="checkbox">☐</span> Modèle économique</li>
+        <li><span class="checkbox">☐</span> Panel d'administration (gestion utilisateurs, transactions, statistiques)</li>
+        <li><span class="checkbox">☐</span> Biométrie (Face ID / Touch ID)</li>
+        <li><span class="checkbox">☐</span> Statistiques avancées</li>
+        <li><span class="checkbox">☐</span> Programme de fidélité</li>
+    </ul>
+
+    <div class="footer">
+        <p><strong>Projet:</strong> Sama Monnaie</p>
+        <p><strong>Organisation:</strong> Talent Boost</p>
+        <p><strong>Année:</strong> 2025</p>
+        <p style="margin-top: 20px; font-size: 0.85em;">
+            Documentation générée le 20 décembre 2025
+        </p>
+    </div>
+
+</body>
+</html>

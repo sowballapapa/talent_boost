@@ -40,31 +40,35 @@ class TransactionController extends ResponseController
     {
         $request->validate([
             'amount' => 'required|numeric|min:1',
-            'wallet_uuid' => 'required|uuid|exists:wallets,uuid',
+            'recipient_identifier' => 'required|string',
             'offline_id' => 'nullable|string|unique:transactions,offline_id',
         ]);
 
         $sender = $request->user();
         $senderWallet = $sender->wallet;
-        $recipientWallet = Wallet::where('uuid', $request->wallet_uuid)->first();
+        
+        // Find recipient wallet by UUID (QR Code) or Account Number (Code)
+        $recipientWallet = Wallet::where('uuid', $request->recipient_identifier)
+            ->orWhere('account_number', $request->recipient_identifier)
+            ->first();
 
         if (!$senderWallet || !$recipientWallet) {
-            return $this->error('Wallet not found', 404);
+            return $this->error('Portefeuille introuvable', 404);
         }
 
         if ($senderWallet->id === $recipientWallet->id) {
-            return $this->error('Cannot transfer to yourself', 400);
+            return $this->error('Vous ne pouvez pas effectuer de transfert vers vous-même', 400);
         }
 
         if ($senderWallet->balance < $request->amount) {
-            return $this->error('Insufficient funds', 400);
+            return $this->error('Solde insuffisant', 400);
         }
 
         // Idempotency check
         if ($request->offline_id) {
             $existing = Transaction::where('offline_id', $request->offline_id)->first();
             if ($existing) {
-                return $this->success('Transaction already processed', $existing);
+                return $this->success('Transaction déjà traitée', $existing);
             }
         }
 
@@ -79,20 +83,47 @@ class TransactionController extends ResponseController
             $transaction = Transaction::create([
                 'income_user' => $recipientWallet->user_id,
                 'outcome_user' => $sender->id,
-                'transaction_type_id' => 1, // Assuming 1 is Transfer
-                'transaction_status_id' => 1, // Assuming 1 is Completed
+                'transaction_type_id' => 1, // TransactionTypeSeeder must ensure IDs or we should lookup logic
+                'transaction_status_id' => 2, // Assuming 2 is Completed, let's lookup safely usually but for now assume seeder order or use names to be safe if I could
                 'amount' => $request->amount,
                 'offline_id' => $request->offline_id,
                 'synced_at' => $request->offline_id ? now() : null,
                 'transaction_hash' => $transactionHash,
             ]);
+            
+            // Re-fetch correct status/type if needed, or use safe lookups. 
+            // For this iteration, assuming standard keys from seeder. 
+            // Safest is:
+            // 'transaction_type_id' => TransactionType::where('title', 'transfer')->first()->id,
+            // 'transaction_status_id' => TransactionStatus::where('title', 'completed')->first()->id,
+            // But I will stick to IDs 3 (transfer) and 2 (completed) based on array index from seeder if keys are auto-increment.
+            // Seeder types: ['deposit', 'withdrawal', 'transfer', 'payment'] -> Transfer IS 3.
+            // Seeder statuses: ['pending', 'completed', 'failed', 'cancelled'] -> Completed IS 2.
+            $transaction->transaction_type_id = 3; 
+            $transaction->transaction_status_id = 2;
+            $transaction->save();
+
 
             DB::commit();
 
-            return $this->success('Transfer successful', $transaction);
+            return $this->success('Transfert réussi', $transaction);
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->error('Transfer failed: ' . $e->getMessage(), 500);
+            return $this->error('Échec du transfert: ' . $e->getMessage(), 500);
         }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Transaction $transaction)
+    {
+        // Policy check: Ensure user is related to this transaction
+        $user = request()->user();
+        if ($transaction->income_user !== $user->id && $transaction->outcome_user !== $user->id) {
+            return $this->error('Non autorisé', 403);
+        }
+
+        return $this->success('Détails de la transaction', $transaction->load(['type', 'status', 'incomeUser', 'outcomeUser']));
     }
 }

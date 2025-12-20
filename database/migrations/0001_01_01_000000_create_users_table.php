@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('id_card_recto');
             $table->string('id_card_verso');
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_active')->default(true);

@@ -34,6 +34,8 @@ class User extends Authenticatable
         'phone',
         'id_card_recto',
         'id_card_verso',
+        'city',
+        'country',
         'role',
         'is_active',
     ];

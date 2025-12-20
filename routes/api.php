@@ -19,6 +19,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/wallet/balance', [App\Http\Controllers\WalletController::class, 'balance']);
     Route::post('/transactions/transfer', [App\Http\Controllers\TransactionController::class, 'transfer']);
     Route::get('/transactions/history', [App\Http\Controllers\TransactionController::class, 'index']);
+    Route::get('/transactions/{transaction}', [App\Http\Controllers\TransactionController::class, 'show']);
     Route::get('/transaction-types', [App\Http\Controllers\TransactionTypeController::class, 'index']);
     Route::get('/transaction-statuses', [App\Http\Controllers\TransactionStatusController::class, 'index']);
+
+    // User Profile Routes
+    Route::get('/user/profile', [App\Http\Controllers\UserController::class, 'profile']);
+    Route::post('/user/update', [App\Http\Controllers\UserController::class, 'update']);
+    Route::get('/user/search', [App\Http\Controllers\UserController::class, 'search']);
 });
